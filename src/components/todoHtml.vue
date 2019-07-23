@@ -6,7 +6,7 @@
       <Footer></Footer>
     </section>
     <footer style="text-align:center;margin-top:120px;font:italic 700 16px">
-      By <a href="https://github.com/Disiye" target="_blank">emilo@oocl.com</a>
+      By <a href="https://github.com/Disiye" target="_blank">emilo.weng@oocl.com</a>
     </footer>
   </div>
 </template>
@@ -15,8 +15,6 @@
 import Header from "@/components/header"
 import Main from "@/components/main"
 import Footer from "@/components/footer"
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 export default {
   name: 'todoHtml',
   components: {
@@ -25,25 +23,11 @@ export default {
     Footer
   },
   created(){
-    this.getHttp()
+    this.getHttpAsync()
   },
   methods: {
-    async getHttp(){
-      axios.get('http://localhost:8080/todo-mvcs')
-        .then((response)=>{
-          this.$store.commit('initDate', response.data)
-        })
-    },
-    postHttp(item){
-      this.$axios({
-        method: 'post',
-        url: 'http://localhost:8080/todo-mvcs',
-        data: {
-          "id": item.id,
-          "test": item.test,
-          "complete": item.complete
-        }
-      });
+    getHttpAsync() {
+      this.$store.dispatch('getHttpAsync'); 
     }
   }
 }

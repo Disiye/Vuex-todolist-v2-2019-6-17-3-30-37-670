@@ -13,8 +13,8 @@ export default {
     }
   },
   methods: {
-    addList () {
-      this.$store.commit('addList',{text:this.value})
+    addList() {
+      this.$store.dispatch('addList',{text:this.value}); 
       this.value = ""
     }
   }

@@ -20,7 +20,11 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   computed: mapGetters(['unComplete']),
-  methods: mapActions(['clearCompletedAsync'])
+  methods: {
+    clearCompletedAsync(){
+      this.$store.dispatch('clearCompletedAsync')
+    }
+  }
 }
 </script>
 

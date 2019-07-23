@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <todoHtml></todoHtml>
+    <router-view></router-view>
+    <!-- <todoHtml></todoHtml> -->
   </div>
 </template>
 

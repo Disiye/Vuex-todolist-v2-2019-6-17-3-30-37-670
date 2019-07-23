@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 Vue.use(Vuex)
 
+
 const state = {
+  name: '',
   todoList: [
     
   ],
@@ -16,25 +19,24 @@ const getters = {
 }
 
 const mutations ={
-  addList (state,payload) {
-    state.todoList.push({
-      id: ++state.index,
-      text: payload.text,
-      complete: false
-    })
-    postHttp(payload);
+
+  setName(state, name) {
+    state.name = name
   },
-  deleteList (state,payload) {
-    let index = state.todoList.findIndex(item => item.id == payload.id)
-    state.todoList.splice(index,1)
+
+  deleteData (state,payload){
+    let index = state.todoList.findIndex(item => item.id == payload.id);
+    state.todoList.splice(index,1);
   },
-  changeState (state,payload) {
-    let index = state.todoList.findIndex(item => item.id == payload.id)
+
+  changeState (state,index) {
     state.todoList[index].complete = !state.todoList[index].complete
   },
+
   clearCompleted (state) {
     state.todoList = state.todoList.filter(item => !item.complete)
   },
+
   initData(state,data){
     data.forEach(e => {
         let item = {
@@ -42,18 +44,70 @@ const mutations ={
             text: e.text,
             complete: e.complete
             }
-        state.allItems.push(item)
-        state.showItems.push(item)
+        state.todoList.push(item)
     })
   }
 }
 
 
 const actions = {
-  clearCompletedAsync (context) {
-    setTimeout(() => {
+  async clearCompletedAsync (context) {
+    axios({
+      method: 'delete',
+      url: 'http://localhost:8080/todo-mvcs/',
+    }).then((response)=>{
       context.commit('clearCompleted')
-    }, 1000);
+    })
+  },
+
+  async getHttpAsync(context){
+    axios({
+      method: 'get',
+      url: 'http://localhost:8080/todo-mvcs',
+    }).then((response)=>{
+      context.commit('initData', response.data)
+    })
+  },
+
+  async addList (state,payload) {
+    state.state.todoList.push({
+      id: ++state.state.index,
+      text: payload.text,
+      complete: false
+    });
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/todo-mvcs',
+      data: {
+        "id": state.state.index,
+        "text": payload.text,
+        "complete": false
+      }
+    });
+  },
+
+  async deleteListAsync (state,context) {
+    axios({
+      method: 'delete',
+      url: 'http://localhost:8080/todo-mvcs/' + context.id,
+    }).then((response)=>{
+      this.commit('deleteData', state.state)
+    });
+  },
+
+  async changeStateAsync (state,context){
+    let index = state.state.todoList.findIndex(item => item.id == context.id)
+    axios({
+      method: 'put',
+      url: 'http://localhost:8080/todo-mvcs/' + context.id,
+      data: {
+        "id": state.state.todoList[index].id,
+        "text": state.state.todoList[index].text,
+        "complete": !state.state.todoList[index].complete
+      }
+    }).then((response)=>{
+      this.commit('changeState', index)
+    });
   }
 }
 
