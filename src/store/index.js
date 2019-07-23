@@ -22,6 +22,7 @@ const mutations ={
       text: payload.text,
       complete: false
     })
+    postHttp(payload);
   },
   deleteList (state,payload) {
     let index = state.todoList.findIndex(item => item.id == payload.id)
@@ -33,8 +34,21 @@ const mutations ={
   },
   clearCompleted (state) {
     state.todoList = state.todoList.filter(item => !item.complete)
+  },
+  initData(state,data){
+    data.forEach(e => {
+        let item = {
+            id: e.id,
+            text: e.text,
+            complete: e.complete
+            }
+        state.allItems.push(item)
+        state.showItems.push(item)
+    })
   }
 }
+
+
 const actions = {
   clearCompletedAsync (context) {
     setTimeout(() => {

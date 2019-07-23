@@ -25,10 +25,10 @@ export default {
     Footer
   },
   created(){
-    this.getHtml()
+    this.getHttp()
   },
   methods: {
-    async getHtml(){
+    async getHttp(){
       axios.get('http://localhost:8080/todo-mvcs')
         .then((response)=>{
           this.$store.commit('initDate', response.data)
