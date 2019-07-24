@@ -1,6 +1,6 @@
 <template>
     <div class="home-container">
-        <button class="back-button">return</button>
+        <button class="back-button" @click="returnWelcome">return</button>
         <span style="float:right;">{{$store.state.name}}</span>
         <router-link to="/home/todoHtml">TodoHtml</router-link><br>
         <router-link to="/home/name">myself</router-link>
@@ -10,7 +10,11 @@
 
 <script>
 export default {
-    
+     methods: {
+        returnWelcome(){
+            confirm("sure return")?this.$router.push('/welcome'):''
+        }
+    },
 };
 </script>
 
