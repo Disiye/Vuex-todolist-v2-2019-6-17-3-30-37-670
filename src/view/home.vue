@@ -2,9 +2,12 @@
     <div class="home-container">
         <button class="back-button" @click="returnWelcome">return</button>
         <span style="float:right;">{{$store.state.name}}</span>
-        <router-link to="/home/todoHtml">TodoHtml</router-link><br>
-        <router-link to="/home/name">myself</router-link>
-        <router-view/>
+        <router-link to="/home/name/todoHtml">TodoHtml</router-link><br>
+        <router-link to="/home/name/helloName">myself</router-link>
+        <div>
+          <router-view/>
+        </div>
+        
     </div>
 </template>
 
